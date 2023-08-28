@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Большой теннис</title>
+	</head>
+
+	<body>
+		<!-- Главная страница с ссылками на новый матч и завершенные матчи -->
+		<h1 align='center'>Большой теннис</h1>
+		<hr><br>
+		
+		<p align='center'>Страницы со всеми сыгранными матчами</p>
+		
+		<form action="matches" method="get" align='center'>
+				<button type="submit" formmethod='get'>Тут по фильтру должны возвращаться на свою же страницу</button><br><br>
+		</form>
+		
+		<form action="new-match" method="get" align='center'>
+				<button type="submit" formmethod='get'>Новый матч</button><br><br>
+		</form>
+		
+		{% for elem in matches_for_print -%}
+			<p align='center'>{{elem[1], elem[2], elem[3]}}</p>
+		{% endfor %}
+	</body>
+
+</html>
