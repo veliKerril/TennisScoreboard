@@ -29,21 +29,19 @@ class HTTPHandler(server.BaseHTTPRequestHandler):
         self.wfile.write(Views.new_match())
 
     def match_score(self):
+        UID = self.query_data['uuid']
         print('Редерект произошел успешно')
-        player1 = self.query_data['player1']
-        player2 = self.query_data['player2']
+        info = Service.get_cur_situation(UID)
         self.send_response(200)
         self.send_header('content-type', 'text/html; charset=utf-8')
         self.end_headers()
-        self.wfile.write(Views.match_score(player1=player1, player2=player2))
+        self.wfile.write(Views.match_score(info, UID))
 
     def matches(self):
-        print(Service.return_all_matches())
         matches_for_print = Service.return_all_matches()
         self.send_response(200)
         self.send_header('content-type', 'text/html; charset=utf-8')
         self.end_headers()
-        print('test')
         self.wfile.write(Views.matches(matches_for_print))
 
     def wrong(self):
@@ -71,18 +69,39 @@ class HTTPHandler(server.BaseHTTPRequestHandler):
         answer = parse_qs(str(body)[2:-1])
         player1 = answer['player1'][0]
         player2 = answer['player2'][0]
-        Service.check_and_add_players(player1, player2)
+        UID = Service.start_new_game(player1, player2)
         self.send_response(301)
-        self.send_header('Location', f'match-score?player1={player1}&player2={player2}')
+        self.send_header('Location', f'match-score?uuid={UID}')
         self.end_headers()
 
     def post_match_score(self):
-        player1 = 'test1'
-        player2 = 'test2'
-        self.send_response(200)
-        self.send_header('content-type', 'text/html; charset=utf-8')
-        self.end_headers()
-        self.wfile.write(Views.match_score(player1, player2))
+        # Этот блок вытаскивает информацию из тела POST-запроса
+        content_length = int(self.headers['Content-Length'])
+        body = self.rfile.read(content_length)
+        answer = parse_qs(str(body)[2:-1])
+        player = answer['player'][0]
+
+        # Этот блок вытаскивает информацию из URL запроса
+        UID = self.query_data['uuid']
+
+        # А тут загружаем информацию о том, кто победил
+        Service.win_point(player, UID)
+
+        # Если матч закончился
+        if Service.flag:
+            Service.flag = False
+            self.send_response(301)
+            self.send_header('Location', f'matches')
+            self.end_headers()
+        # Иначе
+        else:
+            # И получаем всю нужную нам информацию
+            info = Service.get_cur_situation(UID)
+
+            self.send_response(200)
+            self.send_header('content-type', 'text/html; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(Views.match_score(info, UID))
 
     def do_POST(self):
         if self.path[:10] == '/new-match':

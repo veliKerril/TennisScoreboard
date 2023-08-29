@@ -89,7 +89,16 @@ class Model:
             Model.add_player(player)
 
 
+class Match:
+    def __init__(self, player1, player2):
+        self.player1 = player1
+        self.player2 = player2
+        self.score = {self.player1: 0, self.player2: 0}
+        self.set = {self.player1: 0, self.player2: 0}
+        self.best_of_3 = {self.player1: 0, self.player2: 0}
+
+
 if __name__ == '__main__':
-    ### Проверка того, что заполнение бд произошло успешно
+    # Проверка того, что заполнение бд произошло успешно
     Model.test_values()
     Model.print_all()

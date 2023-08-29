@@ -11,10 +11,21 @@
 		<hr>
 		<p align='center'>Непосредственно само табло</p>
 		<p align='center'>Имя первого игрока - {{player1}}, имя второго игрока - {{player2}}</p>
+
 		
-		<form action="match-score" method="post" align='center'>
-			<button type="submit" formmethod='post'>Должны приходить сюда же через пост</button><br><br>
+		<form action="match-score?uuid={{uuid}}" method="post" align='center'>
+			<input type="hidden" name="player" for='player1' value="{{player1}}" />
+			<button type="submit" id='player1' formmethod='post'>Игрок 1 выиграл текущее очко</button><br><br>
 		</form>
+		
+		<form action="match-score?uuid={{uuid}}" method="post" align='center'>
+			<input type="hidden" name="player" for='player2' value="{{player2}}" />
+			<button type="submit" id='player2' formmethod='post'>Игрок 2 выиграл текущее очко</button><br><br>
+		</form>
+		
+		<p align='center'>Гейм: {{game}}</p>
+		<p align='center'>Сеты: {{set}}</p>
+		<p align='center'>Счет: {{best_of_3}}</p>
 	</body>
 
 </html>
