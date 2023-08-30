@@ -48,7 +48,7 @@ class Service:
 
             # Если игра закончилась до больше-меньше, то заканчиваем гейм
             if 4 in match.score.values() and sum(match.score.values()) <= 6:
-                Service.end_game(player, UID)
+                Service.end_set(player, UID)
         # Иначе у нас ситуация тайм-брейка
         else:
             # Если ситуация больше-меньше - переходим в обработку больше-меньше
@@ -57,7 +57,7 @@ class Service:
 
             # Если игра закончилась до больше-меньше, то заканчиваем гейм
             if 7 in match.score.values() and sum(match.score.values()) <= 12:
-                Service.end_game(player, UID)
+                Service.end_set(player, UID)
 
     # Обработка ситуации больше-меньше
     @staticmethod
@@ -66,11 +66,11 @@ class Service:
         # Текущий счет обнуляестя, сет увеличивается
         match = Service.dict_match[UID]
         if abs(match.score[match.player1] - match.score[match.player2]) == 2:
-            Service.end_game(player, UID)
+            Service.end_set(player, UID)
 
     # Тут проверяем ситуацию по сетам и в игре
     @staticmethod
-    def end_game(player, UID):
+    def end_set(player, UID):
         match = Service.dict_match[UID]
         for players in match.score:
             match.score[players] = 0
@@ -80,11 +80,15 @@ class Service:
             for players in match.set:
                 match.set[players] = 0
             match.best_of_3[player] += 1
-        # Проверка на окончание игры в целом
         if 2 in match.best_of_3.values():
-            Model.add_match(match.player1, match.player2, player)
-            Service.dict_match.pop(UID)
             Service.flag = True
+
+    @staticmethod
+    # Проверка на окончание игры в целом
+    def end_game(UID, player):
+        match = Service.dict_match[UID]
+        Model.add_match(match.player1, match.player2, player)
+        Service.dict_match.pop(UID)
 
     # Возвращает текущую ситуации по игре
     @staticmethod

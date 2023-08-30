@@ -18,15 +18,22 @@ class Views:
         return msg.encode(encoding=Views.ENCODING)
 
     @staticmethod
-    def match_score(info, UID):
+    def match_score(info, UID, winner=None):
         player1 = info[0]
         player2 = info[1]
         game = info[2]
         set = info[3]
         best_of_3 = info[4]
         tm = Views.env.get_template('match_score.html')
-        msg = tm.render(player1=player1, player2=player2, game=game, set=set, best_of_3=best_of_3, uuid=UID)
+        msg = tm.render(player1=player1, player2=player2, game=game, set=set,
+                        best_of_3=best_of_3, uuid=UID, winner=winner)
         return msg.encode(encoding=Views.ENCODING)
+
+    # @staticmethod
+    # def match_score(winner, UID):
+    #     tm = Views.env.get_template('match_score.html')
+    #     msg = tm.render(player1=player1, player2=player2, game=game, set=set, best_of_3=best_of_3, uuid=UID)
+    #     return msg.encode(encoding=Views.ENCODING)
 
     @staticmethod
     def matches(matches_for_print):

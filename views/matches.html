@@ -3,6 +3,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Большой теннис</title>
+		<style>
+			{%include 'style.css'%}
+		</style>
 	</head>
 
 	<body>
@@ -20,9 +23,11 @@
 				<button type="submit" formmethod='get'>Новый матч</button><br><br>
 		</form>
 		
+		<ol>
 		{% for elem in matches_for_print -%}
-			<p align='center'>{{elem[1], elem[2], elem[3]}}</p>
+			<li>{{elem[1]}}, {{elem[2]}}, {{elem[3]}}</li>
 		{% endfor %}
+		</ol>
 	</body>
 
 </html>

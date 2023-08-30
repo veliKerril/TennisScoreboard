@@ -3,29 +3,69 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Большой теннис</title>
+		<style>
+			{%include 'style.css'%}
+		</style>
 	</head>
 
 	<body>
 		<!-- Главная страница с ссылками на новый матч и завершенные матчи -->
 		<h1 align='center'>Большой теннис</h1>
 		<hr>
-		<p align='center'>Непосредственно само табло</p>
-		<p align='center'>Имя первого игрока - {{player1}}, имя второго игрока - {{player2}}</p>
+		<br><br><br>
 
+		<table align='center' border cellpadding='20' cols='5' rows='3'>
+			<tr align="center">
+				<td>Player</td>
+				<td></td>
+				<td>Points</td>
+				<td>Sets</td>
+				<td>Score</td>
+				<td></td>
+			</tr>
+			<tr align="center">
+				<td>{{player1}}</td>
+				<td>•</td>
+				<td>{{game[player1]}}</td>
+				<td>{{set[player1]}}</td>
+				<td>{{best_of_3[player1]}}</td>
+				<td width='100' height='50'>
+					{% if not winner -%}
+					<form action="match-score?uuid={{uuid}}" method="post" align='center'>
+						<input type="hidden" name="player" for='player1' value="{{player1}}" />
+						<button class='take-score'type="submit" id='player1' formmethod='post'>Take point</button><br><br>
+					</form>
+					{% endif -%}
+				</td>
+			</tr>
+			<tr align="center">
+				<td>{{player2}}</td>
+				<td>•</td>
+				<td>{{game[player2]}}</td>
+				<td>{{set[player2]}}</td>
+				<td>{{best_of_3[player2]}}</td>
+				<td width='100' height='50'>
+					{% if not winner -%}
+					<form action="match-score?uuid={{uuid}}" method="post" align='center'>
+						<input type="hidden" name="player" for='player2' value="{{player2}}" />
+						<button class='take-score' type="submit" id='player2' formmethod='post'>Take point</button><br><br>
+					</form>
+					{% endif -%}
+				</td>
+			</tr>
+		</table>
+		<br><br><br>
 		
-		<form action="match-score?uuid={{uuid}}" method="post" align='center'>
-			<input type="hidden" name="player" for='player1' value="{{player1}}" />
-			<button type="submit" id='player1' formmethod='post'>Игрок 1 выиграл текущее очко</button><br><br>
-		</form>
-		
-		<form action="match-score?uuid={{uuid}}" method="post" align='center'>
-			<input type="hidden" name="player" for='player2' value="{{player2}}" />
-			<button type="submit" id='player2' formmethod='post'>Игрок 2 выиграл текущее очко</button><br><br>
-		</form>
-		
-		<p align='center'>Гейм: {{game}}</p>
-		<p align='center'>Сеты: {{set}}</p>
-		<p align='center'>Счет: {{best_of_3}}</p>
+		{% if winner -%}
+			<p align='center'>Ура! Игрок {{winner}} победил!</p>
+			<form action="main-page" method="get" align='center'>
+				<button type="submit" formmethod='get'>Вернуться на главную страницу</button>
+			</form><br>
+			
+			<form action="matches" method="get" align='center'>
+				<button type="submit" formmethod='get'>Сыгранные матчи</button><br><br>
+			<form action="matches" method="get">
+		{% endif -%}
 	</body>
 
 </html>

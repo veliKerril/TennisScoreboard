@@ -51,7 +51,7 @@ class HTTPHandler(server.BaseHTTPRequestHandler):
         self.wfile.write(Views.wrong())
 
     def do_GET(self):
-        if self.path == '/main' or self.path == '/':
+        if self.path[:10] == '/main-page' or self.path == '/':
             HTTPHandler.main_page(self)
         elif self.path[:10] == '/new-match':
             HTTPHandler.new_match(self)
@@ -86,18 +86,18 @@ class HTTPHandler(server.BaseHTTPRequestHandler):
 
         # А тут загружаем информацию о том, кто победил
         Service.win_point(player, UID)
-
+        info = Service.get_cur_situation(UID)
         # Если матч закончился
         if Service.flag:
             Service.flag = False
-            self.send_response(301)
-            self.send_header('Location', f'matches')
+            Service.end_game(UID, player)
+            self.send_response(200)
+            self.send_header('content-type', 'text/html; charset=utf-8')
             self.end_headers()
+            self.wfile.write(Views.match_score(info, UID, player))
         # Иначе
         else:
             # И получаем всю нужную нам информацию
-            info = Service.get_cur_situation(UID)
-
             self.send_response(200)
             self.send_header('content-type', 'text/html; charset=utf-8')
             self.end_headers()
