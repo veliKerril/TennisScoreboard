@@ -15,38 +15,38 @@
 		<br><br><br>
 
 		<table align='center' border cellpadding='20' cols='5' rows='3'>
-			<tr align="center">
-				<td>Player</td>
+			<tr class='row1' align="center">
+				<td class='player_col'>Player</td>
 				<td></td>
 				<td>Points</td>
 				<td>Sets</td>
 				<td>Score</td>
-				<td></td>
+				<td class='button_col'></td>
 			</tr>
-			<tr align="center">
+			<tr class="row23" align="center">
 				<td>{{player1}}</td>
 				<td>•</td>
-				<td>{{game[player1]}}</td>
-				<td>{{set[player1]}}</td>
-				<td>{{best_of_3[player1]}}</td>
-				<td width='100' height='50'>
+				<td class='digit'>{{game[player1]}}</td>
+				<td class='digit'>{{set[player1]}}</td>
+				<td class='digit'>{{best_of_3[player1]}}</td>
+				<td>
 					{% if not winner -%}
-					<form action="match-score?uuid={{uuid}}" method="post" align='center'>
+					<form class='hide' action="match-score?uuid={{uuid}}" method="post" align='center'>
 						<input type="hidden" name="player" for='player1' value="{{player1}}" />
 						<button class='take-score'type="submit" id='player1' formmethod='post'>Take point</button><br><br>
 					</form>
 					{% endif -%}
 				</td>
 			</tr>
-			<tr align="center">
+			<tr class="row23" align="center">
 				<td>{{player2}}</td>
 				<td>•</td>
-				<td>{{game[player2]}}</td>
-				<td>{{set[player2]}}</td>
-				<td>{{best_of_3[player2]}}</td>
-				<td width='100' height='50'>
+				<td class='digit'>{{game[player2]}}</td>
+				<td class='digit'>{{set[player2]}}</td>
+				<td class='digit'>{{best_of_3[player2]}}</td>
+				<td>
 					{% if not winner -%}
-					<form action="match-score?uuid={{uuid}}" method="post" align='center'>
+					<form class='hide' action="match-score?uuid={{uuid}}" method="post" align='center'>
 						<input type="hidden" name="player" for='player2' value="{{player2}}" />
 						<button class='take-score' type="submit" id='player2' formmethod='post'>Take point</button><br><br>
 					</form>
@@ -54,12 +54,11 @@
 				</td>
 			</tr>
 		</table>
-		<br><br><br>
 		
 		{% if winner -%}
-			<p align='center'>Ура! Игрок {{winner}} победил!</p>
+			<p class='winner_info' align='center'>Игрок {{winner}} победил!</p>
 			<form action="main-page" method="get" align='center'>
-				<button type="submit" formmethod='get'>Вернуться на главную страницу</button>
+				<button type="submit" formmethod='get'>Главная страница</button>
 			</form><br>
 			
 			<form action="matches" method="get" align='center'>

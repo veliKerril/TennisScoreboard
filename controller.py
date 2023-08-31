@@ -39,10 +39,16 @@ class HTTPHandler(server.BaseHTTPRequestHandler):
 
     def matches(self):
         matches_for_print = Service.return_all_matches()
+        page = self.query_data.get('page', 1)
+        filter_by_player_name = self.query_data.get('filter_by_player_name', '')
+        if filter_by_player_name:
+            matches_for_print = Service.return_filtered_matches(filter_by_player_name)
+        else:
+            matches_for_print = Service.return_all_matches()
         self.send_response(200)
         self.send_header('content-type', 'text/html; charset=utf-8')
         self.end_headers()
-        self.wfile.write(Views.matches(matches_for_print))
+        self.wfile.write(Views.matches(matches_for_print, page, filter_by_player_name))
 
     def wrong(self):
         self.send_response(500)

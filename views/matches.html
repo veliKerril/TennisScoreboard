@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Большой теннис</title>
 		<style>
-			{%include 'style.css'%}
+			{%include 'style_for_matches.css'%}
 		</style>
 	</head>
 
@@ -13,21 +13,104 @@
 		<h1 align='center'>Большой теннис</h1>
 		<hr><br>
 		
-		<p align='center'>Страницы со всеми сыгранными матчами</p>
-		
-		<form action="matches" method="get" align='center'>
-				<button type="submit" formmethod='get'>Тут по фильтру должны возвращаться на свою же страницу</button><br><br>
-		</form>
-		
-		<form action="new-match" method="get" align='center'>
-				<button type="submit" formmethod='get'>Новый матч</button><br><br>
-		</form>
-		
-		<ol>
-		{% for elem in matches_for_print -%}
-			<li>{{elem[1]}}, {{elem[2]}}, {{elem[3]}}</li>
-		{% endfor %}
-		</ol>
-	</body>
 
+		
+		<table class='table' align='center'>
+			<thead>
+				<tr>
+					<th>Номер матча</th>
+					<th>Игрок 1</th>
+					<th>Игрок 2</th>
+					<th>Победитель</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				{% for i in range(matches_for_print|length - 1 - (page|int * 10 - 10), matches_for_print|length - 1 - 10 - (page|int * 10 - 10), -1) -%}
+				<tr>
+					{% if i >= 0 -%}
+						<td>{{matches_for_print[i][0]}}</td>
+						<td>{{matches_for_print[i][1]}}</td>
+						<td>{{matches_for_print[i][2]}}</td>
+						<td>{{matches_for_print[i][3]}}</td>
+					{% else %}
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+						<td>-</td>
+					{% endif -%}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
+		
+		<form class='filter' action="matches" method="get" align='center'>
+			<label class='filter_label' for="player" >Фильтр по игроку:</label>
+			<input class='filter_input' autocomplete="off" type="text" id="player" name="filter_by_player_name">
+			<button class='filter_button' type="submit" formmethod="get">Применить фильтр</button>
+		</form>
+
+		<div align='center'>
+			{% for i in range(1, (matches_for_print|length / 10)|int + 2) -%}
+			<form class='pagination' action="matches" method="get" align='center'>
+				<input type="hidden" name="page" for='{{i}}' value="{{i}}" />
+				<input type="hidden" name="filter_by_player_name" for='{{i}}' value="{{filter_by_player_name}}" />
+				<button type="submit" formmethod="get" id='{{i}}'>{{i}}</button>
+			</form>
+			{% endfor %}
+		</div>
+		
+		<form action="main-page" method="get" align='center'>
+			<button class='main_button' type="submit" formmethod='get'>Главная страница</button><br><br>
+		<form action="matches" method="get">
+	</body>
 </html>
+
+<!-- 		{% for elem in matches_for_print -%}
+			<tr>
+				<td>{{elem[0]}}</td>
+				<td>{{elem[1]}}</td>
+				<td>{{elem[2]}}</td>
+				<td>{{elem[3]}}</td>
+			</tr>
+			{% endfor %} -->
+			
+		<!--<form action="matches" method="get" align='center'>
+				<button type="submit" formmethod='get'>Фильтр</button><br><br>
+		</form> -->
+		
+
+<!--		<form action="new-match" method="get" align='center'>
+			<button type="submit" formmethod='get'>Новый матч</button><br><br>
+		</form> -->
+
+<!--
+            <a href="#"> 1 </a>
+            <a href="#"
+               title="Algorithm">2</a>
+            <a href="#"
+               title="DataStructure">3</a>
+            <a href="#"
+               title="Languages">4</a>
+            <a href="#"
+               title="Interview"
+               class="active">5</a>
+            <a href="#"
+               title="practice">6</a>
+            <a href="#">7</a>
+-->
+
+
+			<!--<input type="hidden" name="page" for='1' value="1" />
+			<button type="submit" formmethod="get" id='3'>3</button>
+			<input type="hidden" name="page" for='3' value="3" />
+			<button type="submit" formmethod="get" id='3'>3</button>
+			<input type="hidden" name="page" for='4' value="4" />
+			<button type="submit" formmethod="get" id='4'>4</button>
+			<input type="hidden" name="page" for='5' value="5" />
+			<button type="submit" formmethod="get" id='5'>5</button>
+			<input type="hidden" name="page" for='6' value="6" />
+			<button type="submit" formmethod="get" id='6'>6</button>
+			<input type="hidden" name="page" for='7' value="7" />
+			<button type="submit" formmethod="get" id='7'>7</button>-->

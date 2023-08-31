@@ -36,9 +36,9 @@ class Views:
     #     return msg.encode(encoding=Views.ENCODING)
 
     @staticmethod
-    def matches(matches_for_print):
+    def matches(matches_for_print, page, filter_by_player_name):
         tm = Views.env.get_template('matches.html')
-        msg = tm.render(matches_for_print=matches_for_print)
+        msg = tm.render(matches_for_print=matches_for_print, page=page, filter_by_player_name=filter_by_player_name)
         return msg.encode(encoding=Views.ENCODING)
 
     @staticmethod

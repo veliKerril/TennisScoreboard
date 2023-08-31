@@ -30,8 +30,11 @@ class Service:
 
     @staticmethod
     def return_all_matches():
-        return Model.return_all_mathes()
+        return Model.return_all_matches()
 
+    @staticmethod
+    def return_filtered_matches(player):
+        return Model.return_filtered_matches(player)
     # Главный метод - его вызываем, когда один из игроков забил очки
     # Все методы ниже его так или иначе обслуживают
     @staticmethod

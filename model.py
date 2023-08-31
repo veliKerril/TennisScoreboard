@@ -61,6 +61,36 @@ class Model:
         Model.add_match('Вася', 'Сережа', 'Сережа')
         Model.add_match('Вася', 'Кирилл', 'Вася')
         Model.add_match('Кирилл', 'Петя', 'Кирилл')
+        Model.add_match('Вася', 'Петя', 'Вася')
+        Model.add_match('Вася', 'Коля', 'Коля')
+        Model.add_match('Вася', 'Ваня', 'Вася')
+        Model.add_match('Вася', 'Сережа', 'Сережа')
+        Model.add_match('Вася', 'Кирилл', 'Вася')
+        Model.add_match('Кирилл', 'Петя', 'Кирилл')
+        Model.add_match('Вася', 'Петя', 'Вася')
+        Model.add_match('Вася', 'Коля', 'Коля')
+        Model.add_match('Вася', 'Ваня', 'Вася')
+        Model.add_match('Вася', 'Сережа', 'Сережа')
+        Model.add_match('Вася', 'Кирилл', 'Вася')
+        Model.add_match('Кирилл', 'Петя', 'Кирилл')
+        Model.add_match('Вася', 'Петя', 'Вася')
+        Model.add_match('Вася', 'Коля', 'Коля')
+        Model.add_match('Вася', 'Ваня', 'Вася')
+        Model.add_match('Вася', 'Сережа', 'Сережа')
+        Model.add_match('Вася', 'Кирилл', 'Вася')
+        Model.add_match('Кирилл', 'Петя', 'Кирилл')
+        Model.add_match('Вася', 'Петя', 'Вася')
+        Model.add_match('Вася', 'Коля', 'Коля')
+        Model.add_match('Вася', 'Ваня', 'Вася')
+        Model.add_match('Вася', 'Сережа', 'Сережа')
+        Model.add_match('Вася', 'Кирилл', 'Вася')
+        Model.add_match('Кирилл', 'Петя', 'Кирилл')
+        Model.add_match('Вася', 'Петя', 'Вася')
+        Model.add_match('Вася', 'Коля', 'Коля')
+        Model.add_match('Вася', 'Ваня', 'Вася')
+        Model.add_match('Вася', 'Сережа', 'Сережа')
+        Model.add_match('Вася', 'Кирилл', 'Вася')
+        Model.add_match('Кирилл', 'Петя', 'Кирилл')
 
     @staticmethod
     def print_all():
@@ -75,11 +105,21 @@ class Model:
             print(elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name, session.query(Players).get(elem[3]).name)
 
     @staticmethod
-    def return_all_mathes():
+    def return_all_matches():
         session = Session(bind=Model.engine)
         res = []
         for elem in session.query(Matches.id, Matches.Player1, Matches.Player2, Matches.Winner):
             res.append([elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name, session.query(Players).get(elem[3]).name])
+        return res
+
+    @staticmethod
+    def return_filtered_matches(player):
+        session = Session(bind=Model.engine)
+        res = []
+        for elem in session.query(Matches.id, Matches.Player1, Matches.Player2, Matches.Winner):
+            if session.query(Players).get(elem[1]).name == player or session.query(Players).get(elem[2]).name == player:
+                res.append([elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name,
+                            session.query(Players).get(elem[3]).name])
         return res
 
     @staticmethod
@@ -100,5 +140,8 @@ class Match:
 
 if __name__ == '__main__':
     # Проверка того, что заполнение бд произошло успешно
-    Model.test_values()
-    Model.print_all()
+    Model.add_test_values()
+    print(Model.return_all_matches())
+    print('########################')
+    print(Model.return_filtered_matches('Кирилл'))
+
