@@ -20,6 +20,12 @@
 			<input autocomplete="off" type="text" id="player2" name="player2"><br><br><br><br>
 			<button type="submit" formmethod="post">Начать новый матч</button>
 		</form>
+		
+		{% if validation_of_empty_name -%}
+			<p class='validation' align='center'>Введите имя игрока</p>
+		{% elif validation_of_equal_name -%}
+			<p class='validation' align='center'>Имена не могут быть одинаковыми</p>
+		{% endif -%}
 	</body>
 
 </html>

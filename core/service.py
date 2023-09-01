@@ -4,38 +4,42 @@ import uuid
 
 
 class Service:
-    # В эту переменную буду записывать очередной матч
+    # В словарь записываем очередной матч
     dict_match = {}
 
     # Метка того, что матч закончился
-    flag = False
+    flag_end_match = False
 
+    # Заполняем бд тестовыми значениями
     @staticmethod
     def create_test_values_in_bd():
         Model.add_test_values()
 
+    # Проверяем наличие игроков в бд, если их нет, то добавляем
     @staticmethod
     def check_and_add_players(player1, player2):
         Model.check_and_add_player(player1)
         Model.check_and_add_player(player2)
-        Model.print_all()
 
+    # Кладем новый матч в словарь, ключ - uuid, который функция возвращает
     @staticmethod
     def start_new_game(player1, player2):
         Service.check_and_add_players(player1, player2)
         UID = str(uuid.uuid4())
-        # Service.match = model.Match(player1, player2)
         Service.dict_match[UID] = model.Match(player1, player2)
         return UID
 
+    # Возвращаем информацию по всем сыгранным матчам
     @staticmethod
     def return_all_matches():
         return Model.return_all_matches()
 
+    # Возвращаем информацию по всем сыгранным матчам, где участвовал player
     @staticmethod
     def return_filtered_matches(player):
         return Model.return_filtered_matches(player)
-    # Главный метод - его вызываем, когда один из игроков забил очки
+
+    # Главный метод - его вызываем, когда один из игроков забил vzx
     # Все методы ниже его так или иначе обслуживают
     @staticmethod
     def win_point(player, UID):
@@ -65,7 +69,7 @@ class Service:
     # Обработка ситуации больше-меньше
     @staticmethod
     def deuce(player, UID):
-        # Если достиглась разница в два очка, то происходит новый гейм.
+        # Если достигается разница в два очка, то происходит новый гейм
         # Текущий счет обнуляестя, сет увеличивается
         match = Service.dict_match[UID]
         if abs(match.score[match.player1] - match.score[match.player2]) == 2:
@@ -84,10 +88,10 @@ class Service:
                 match.set[players] = 0
             match.best_of_3[player] += 1
         if 2 in match.best_of_3.values():
-            Service.flag = True
+            Service.flag_end_match = True
 
+    # Проверка на окончание матча
     @staticmethod
-    # Проверка на окончание игры в целом
     def end_game(UID, player):
         match = Service.dict_match[UID]
         Model.add_match(match.player1, match.player2, player)

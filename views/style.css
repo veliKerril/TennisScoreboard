@@ -51,6 +51,13 @@ label {
 	padding: 20px 0px 40px;
 }
 
+.validation {
+	font-size: 2rem;
+	text-shadow: 1px 1px 1px #000;
+	margin: 0;
+	padding: 40px 0px 0px;
+}
+
 /*Все, что ниже, относится к табло*/
 
 table {
