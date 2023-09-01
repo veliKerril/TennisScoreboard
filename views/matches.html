@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Большой теннис</title>
 		<style>
+			{%include 'style_general.css'%}
 			{%include 'style_for_matches.css'%}
 		</style>
 	</head>
@@ -57,7 +58,7 @@
 			<form class='pagination' action="matches" method="get" align='center'>
 				<input type="hidden" name="page" for='{{i}}' value="{{i}}" />
 				<input type="hidden" name="filter_by_player_name" for='{{i}}' value="{{filter_by_player_name}}" />
-				<button type="submit" formmethod="get" id='{{i}}'>{{i}}</button>
+				<button class='pagination_button' type="submit" formmethod="get" id='{{i}}'>{{i}}</button>
 			</form>
 			{% endfor %}
 			{% else %}

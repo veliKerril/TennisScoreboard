@@ -1,0 +1,69 @@
+table {
+	border: 1px solid black;
+	background: #FFDB58;
+	color: black;
+	border-collapse: collapse;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+td {
+	border: 3px solid black;
+	font-size: 2rem;
+	padding: 10px, 10px, 10px, 10px;
+}
+
+.take-score{
+	height: 30px;
+	box-shadow:inset 3px 3px 3px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1);
+	color: black;
+	width: 120px;
+	text-shadow: 1px 1px 1px #000;
+	border-radius: 5px;
+	border-color: black;
+	background: transparent;
+	padding: 0px;
+	margin: 0px;
+	font-size: 1.2rem;
+}
+
+.take-score:hover {
+	background: #FFCF40;
+}
+
+.digit {
+	font-size: 4rem;
+	margin: 0;
+	padding: 0;
+}
+
+.player_col {
+	width: 200px;
+}
+
+.row1 {
+	height: 70px;
+}
+
+.row23 {
+	height: 90px;
+}
+
+.button_col {
+	width: 150px;
+}
+
+.hide {
+	padding: 0;
+	margin: 0;
+	height: 47px;
+}
+
+.winner_info {
+	font-size: 3rem;
+	text-shadow: 1px 1px 1px #000;
+	margin: 0;
+	padding: 20px 0px 40px;
+}
+
+
+

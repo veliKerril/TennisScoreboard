@@ -4,7 +4,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Большой теннис</title>
 		<style>
-			{%include 'style.css'%}
+			{%include 'style_general.css'%}
+			{%include 'style_for_new_match.css'%}
 		</style>
 	</head>
 
@@ -18,7 +19,7 @@
 			<input autocomplete="off" type="text" id="player1" name="player1"><br><br>
 			<label for="player2">Имя второго игрока:</label>
 			<input autocomplete="off" type="text" id="player2" name="player2"><br><br><br><br>
-			<button type="submit" formmethod="post">Начать новый матч</button>
+			<button class='button' type="submit" formmethod="post">Начать новый матч</button>
 		</form>
 		
 		{% if validation_of_empty_name -%}

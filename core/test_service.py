@@ -1,6 +1,5 @@
 from unittest import TestCase, main
 from core.service import Service
-from core import model
 
 
 def create_info_by_win_points(player1, player2, *winner):
@@ -505,4 +504,5 @@ class ServiceTestEndSets(TestCase):
 
 
 if __name__ == '__main__':
+
     main()

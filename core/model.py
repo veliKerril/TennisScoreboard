@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session, declarative_base
 
 
 Base = declarative_base()
+
+
 class Players(Base):
     __tablename__ = 'players'
     id = Column(Integer, autoincrement=True, primary_key=True)
@@ -18,12 +20,11 @@ class Matches(Base):
 
 
 class Model:
-    ### Просто создание всех таблиц
+    # Cоздаем движок и таблицы в бд
     engine = create_engine('sqlite+pysqlite:///:memory:')
     Base.metadata.create_all(engine)
 
-
-    ### Функции по добавлению игроков и матчей в бд
+    # Добавление игрока в бд
     @staticmethod
     def add_player(player):
         session = Session(bind=Model.engine)
@@ -31,6 +32,7 @@ class Model:
         session.add(player1)
         session.commit()
 
+    # Добавление матча в бд
     @staticmethod
     def add_match(player1, player2, winner):
         session = Session(bind=Model.engine)
@@ -125,7 +127,35 @@ class Model:
         Model.add_match('Кирилл', 'Владимир', 'Владимир')
         Model.add_match('Егор', 'Михаил', 'Егор')
 
-    # Выводит всю информацию из бд
+    # Возвращаем информацию по сыгранным матчам из бд
+    @staticmethod
+    def return_all_matches():
+        session = Session(bind=Model.engine)
+        res = []
+        for elem in session.query(Matches.id, Matches.Player1, Matches.Player2, Matches.Winner):
+            res.append([elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name,
+                        session.query(Players).get(elem[3]).name])
+        return res
+
+    # Возвращаем информацию по сыгранным матчам из бд, где участвовал player
+    @staticmethod
+    def return_filtered_matches(player):
+        session = Session(bind=Model.engine)
+        res = []
+        for elem in session.query(Matches.id, Matches.Player1, Matches.Player2, Matches.Winner):
+            if session.query(Players).get(elem[1]).name == player or session.query(Players).get(elem[2]).name == player:
+                res.append([elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name,
+                            session.query(Players).get(elem[3]).name])
+        return res
+
+    # Если player нет в бд, то он будет туда добавлен
+    @staticmethod
+    def check_and_add_player(player):
+        session = Session(bind=Model.engine)
+        if session.query(Players).filter(Players.name == player).count() == 0:
+            Model.add_player(player)
+
+    # Выводит всю информацию из бд, тестовая функция
     @staticmethod
     def print_all():
         session = Session(bind=Model.engine)
@@ -138,31 +168,8 @@ class Model:
         for elem in session.query(Matches.id, Matches.Player1, Matches.Player2, Matches.Winner):
             print(elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name, session.query(Players).get(elem[3]).name)
 
-    @staticmethod
-    def return_all_matches():
-        session = Session(bind=Model.engine)
-        res = []
-        for elem in session.query(Matches.id, Matches.Player1, Matches.Player2, Matches.Winner):
-            res.append([elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name, session.query(Players).get(elem[3]).name])
-        return res
 
-    @staticmethod
-    def return_filtered_matches(player):
-        session = Session(bind=Model.engine)
-        res = []
-        for elem in session.query(Matches.id, Matches.Player1, Matches.Player2, Matches.Winner):
-            if session.query(Players).get(elem[1]).name == player or session.query(Players).get(elem[2]).name == player:
-                res.append([elem[0], session.query(Players).get(elem[1]).name, session.query(Players).get(elem[2]).name,
-                            session.query(Players).get(elem[3]).name])
-        return res
-
-    @staticmethod
-    def check_and_add_player(player):
-        session = Session(bind=Model.engine)
-        if session.query(Players).filter(Players.name == player).count() == 0:
-            Model.add_player(player)
-
-
+# Класс для хранения информации о текущем матче вне бд
 class Match:
     def __init__(self, player1, player2):
         self.player1 = player1
@@ -170,16 +177,3 @@ class Match:
         self.score = {self.player1: 0, self.player2: 0}
         self.set = {self.player1: 0, self.player2: 0}
         self.best_of_3 = {self.player1: 0, self.player2: 0}
-
-
-if __name__ == '__main__':
-    temp1 = ['Test1' for _ in range(24)]
-    temp2 = ['Test2' for _ in range(24)]
-    time_break = temp1 + temp2
-    print(time_break)
-#     # Проверка того, что заполнение бд произошло успешно
-#     # Model.add_test_values()
-#     # print(Model.return_all_matches())
-#     # print('########################')
-#     # print(Model.return_filtered_matches('Кирилл'))
-

@@ -4,7 +4,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Большой теннис</title>
 		<style>
-			{%include 'style.css'%}
+			{%include 'style_general.css'%}
+			{%include 'style_for_score.css'%}
 		</style>
 	</head>
 
@@ -58,11 +59,11 @@
 		{% if winner -%}
 			<p class='winner_info' align='center'>Игрок {{winner}} победил!</p>
 			<form action="main-page" method="get" align='center'>
-				<button type="submit" formmethod='get'>Главная страница</button>
+				<button class='button' type="submit" formmethod='get'>Главная страница</button>
 			</form><br>
 			
 			<form action="matches" method="get" align='center'>
-				<button type="submit" formmethod='get'>Сыгранные матчи</button><br><br>
+				<button class='button' type="submit" formmethod='get'>Сыгранные матчи</button><br><br>
 			<form action="matches" method="get">
 		{% endif -%}
 	</body>
